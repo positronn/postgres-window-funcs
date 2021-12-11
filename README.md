@@ -58,19 +58,31 @@ Window functions are useful when you have to
 
 General uses of window functions are when
 
-1. 
-A calculation is needed to be performed on a set of rows(defined by partition columns) and still keep the result at row level. If we use ` group by` we would have to use aggregation functions on any columns that are not part of the `group` by clause.
+1. A calculation is needed to be performed on a set of rows(defined by partition columns) and still keep the result at row level. If we use ` group by` we would have to use aggregation functions on any columns that are not part of the `group` by clause.
 
 2. Need to perform calculations based on a rolling window.
 
 From postgres docs:
 ```
-Window functions provide the ability to perform calculations across sets of rows that are related to the current query row.
-This is comparable to the type of calculation that can be done with an aggregate function. However, window functions do not cause rows to become grouped into a single output row like non-window aggregate calls would. Instead, the rows retain their separate identities. Behind the scenes, the window function is able to access more than just the current row of the query result.
+Window functions provide the ability to perform calculations across sets of rows that are related
+to the current query row. This is comparable to the type of calculation that can be done with an
+aggregate function. However, window functions do not cause rows to become grouped into a single output
+row like non-window aggregate calls would. Instead, the rows retain their separate identities.
+Behind the scenes, the window function is able to access more than just the current row of the query result.
 
-A window function call always contains an OVER clause directly following the window function's name and argument(s). This is what syntactically distinguishes it from a normal function or non-window aggregate. The OVER clause determines exactly how the rows of the query are split up for processing by the window function. The PARTITION BY clause within OVER divides the rows into groups, or partitions, that share the same values of the PARTITION BY expression(s). For each row, the window function is computed across the rows that fall into the same partition as the current row.
+A window function call always contains an OVER clause directly following the window function's name
+and argument(s). This is what syntactically distinguishes it from a normal function or non-window aggregate.
+The OVER clause determines exactly how the rows of the query are split up for processing by the window
+function. The PARTITION BY clause within OVER divides the rows into groups, or partitions, that share
+the same values of the PARTITION BY expression(s). For each row, the window function is computed
+across the rows that fall into the same partition as the current row.
 
-There is another important concept associated with window functions: for each row, there is a set of rows within its partition called its window frame. Some window functions act only on the rows of the window frame, rather than of the whole partition. By default, if ORDER BY is supplied then the frame consists of all rows from the start of the partition up through the current row, plus any following rows that are equal to the current row according to the ORDER BY clause. When ORDER BY is omitted the default frame consists of all rows in the partition. 
+There is another important concept associated with window functions: for each row, there is a set of rows
+within its partition called its window frame. Some window functions act only on the rows of the window
+frame, rather than of the whole partition. By default, if ORDER BY is supplied then the frame consists
+of all rows from the start of the partition up through the current row, plus any following rows that
+are equal to the current row according to the ORDER BY clause. When ORDER BY is omitted the default
+frame consists of all rows in the partition. 
 ```
 
 # Stop Service
